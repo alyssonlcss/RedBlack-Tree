@@ -14,16 +14,14 @@ struct node {
 };
 typedef struct node Node;
 
-void rotate1I(Node **pt, int *h);
-void rotate2I(Node **pt, int *h);
-void insertAVL(int inKey, Node **pt, int *h);
-void rotate1R(Node **pt, int *h);
-void rotate2R(Node **pt, int *h);
-void swap(Node **a, Node **b);
-void balance(Node **pt, char where, int *h);
-void removeAVL(int x, Node **pt, int *h);
+Node *createNode(int key);
+void moveDad(Node *u, Node *v, Node **ptroot);
+void leftRotate(Node **pt, int *h);
+void rightRotate(Node **pt, int *h);
+void insertRB(int inKey, Node **pt, int *h);
+void removeRB(int x, Node **pt, int *h);
 int height(Node *pt);
-int checkAVL(Node *pt);
+int checkRB(Node *pt);
 void countNodes(Node *pt, int *sum);
 void outputAVL(Node *pt);
 void freeAVL(Node **pt);

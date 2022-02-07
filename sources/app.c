@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "../headers/header.h"
 
-Node *external = external();
+
 
 int main(void) {
     int i, j;

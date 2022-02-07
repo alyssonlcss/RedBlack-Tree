@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "../headers/header.h"
 
-
+Node *outside = external();
 
 Node *createNode(int key){
     Node *new = (Node*) malloc(sizeof(Node));
@@ -17,41 +17,70 @@ Node *createNode(int key){
     return new;
 }
 
-
-void insertRB(Node *new, Node **root) {
-    Node *pt = root, *y = external;
-    
-    while(pt != external) {
-        y = pt;
-        if(new->key = pt->key) {
-            printf("Existing key!\n");
-            y = NULL;
-            pt = external;
+void moveDad(Node *u, Node *v, Node **ptroot) {
+    if(u->dad == outside)
+        (*ptroot) = v
+    else {
+        if(u == u->dad->left) {
+            u->dad->left = v
         }
         else {
-            if(new->key < pt->key) 
-                pt = pt->left;
-            else
-                pt = pt->right;
+            u->dad->right = v
         }
     }
-    if(y != NULL) {
-        new->dad = y;
-        if(y = external) {
-            (*root) = z
-        }
-        else {
-            if(new->key < y->key)
-                y->left = z;
-            else {
-                y->right = z;
-            }
-        }
-        new->left = new->right = external;
-        new->color = "R"
-        routeRN(new, root);
-    }
+    v->dad = u->dad
+}
 
+
+Node *external(){
+    Node *outside = (Node*) malloc(sizeof(Node));
+    outside->key = 0;
+    outside->color = 'N';
+    outside->left = NULL;
+    outside->rigth = NULL;
+    outside->dad = NULL;
+
+    return outside;
+}
+
+
+void leftRotate(Node *new, Node **root) {
+    Node *y = new->right;
+    new->right = y->left;
+
+    if (new->right != outside)
+        new->right->dad = y;
+    y->dad = new->dad;
+
+    if (new->dad == outside)
+        (*root) = y;
+    else if (new == new->dad->left)
+        new->dad->left = y;
+    else
+        new->dad->right = y;
+        
+    y->left = new;
+    new->dad = y;
+}
+
+void rightRotate(Node *new, Node **root) {
+    Node *y = new->left;
+    new->left = y->right;
+
+    if (new->left != outside)
+        new->left->dad = new;
+
+    y->dad = new->dad;
+
+    if (new->dad == outside)
+        (*root) = y;
+    else if (new == new->dad->left)
+        new->dad->left = y;
+    else
+        new->dad->right = y;
+
+    y->right = new;
+    new->dad = y;
 }
 
 
@@ -68,7 +97,7 @@ void rotaRN(Node *new, Node **root) {
             else {
                 if(new == new->dad->right) {
                     new = new->dad;
-                    rotateL(new, root);
+                    leftRotate(new, root);
                 }
                 new->dad->color = "N";
                 new->dad->dad->color = "R";
@@ -96,113 +125,49 @@ void rotaRN(Node *new, Node **root) {
     (*root)->color = "N";
 }
 
-
-void MoveDad(Node *u, Node *v, Node **ptroot) {
-    if(u->dad == external)
-        (*ptroot) = v
-    else {
-        if(u == u->dad->left) {
-            u->dad->left = v
+void insertRB(Node *new, Node **root) {
+    Node *pt = root, *y = outside;
+    
+    while(pt != outside) {
+        y = pt;
+        if(new->key = pt->key) {
+            printf("Existing key!\n");
+            y = NULL;
+            pt = outside;
         }
         else {
-            u->dad->right = v
+            if(new->key < pt->key) 
+                pt = pt->left;
+            else
+                pt = pt->right;
         }
     }
-    v->dad = u->dad
-}
-
-
-Node *external(){
-    Node *external = (Node*) malloc(sizeof(Node));
-    external->key = 0;
-    external->color = 'N';
-    external->left = NULL;
-    external->rigth = NULL;
-    external->dad = NULL;
-
-    return external;
-}
-
-
- void swap(Node **pt, Node **dadS) {
-    Node *temp;
-
-    temp = (*pt);
-    (*pt) = (*dadS);
-    (*dadS) = temp;
-
-    temp->bal = (*pt)->bal;
-    temp->key = (*pt)->key;
-    temp->left = (*pt)->left;
-    temp->right = (*pt)->right;
-
-    //swap
-    (*pt)->bal = (*dadS)->bal;
-    (*pt)->key = (*dadS)->key;
-    (*pt)->left = (*dadS)->left;
-    (*pt)->right = (*dadS)->right;
-
-    (*dadS)->bal = temp->bal;
-    (*dadS)->key = temp->key;
-    (*dadS)->left = temp->left;
-    (*dadS)->right = temp->right;
-
-}
-
-
-void removeAVL(int x, Node **pt, int *h) {
-    if((*pt) == NULL){
-        puts("element does not exist!");
-        *h = 0;
-    }
-    else {
-        if(x < (*pt)->key) {
-            removeAVL(x, &(*pt)->left, h);
-            balance(pt, 'L', h);
+    if(y != NULL) {
+        new->dad = y;
+        if(y = outside) {
+            (*root) = z
         }
         else {
-            if(x > (*pt)->key) {
-                removeAVL(x, &(*pt)->right, h);
-                balance(pt, 'R', h);
-            }
+            if(new->key < y->key)
+                y->left = z;
             else {
-                Node *aux = (*pt);
-                
-                if((*pt)->left == NULL) {
-                    (*pt) = (*pt)->right;
-                    *h = 1;
-                }
-                else {
-                    if((*pt)->right == NULL) {
-                        (*pt) = (*pt)->left;
-                        *h = 1;
-                    }
-                    else {
-                        Node *s = (*pt)->right;
-
-                        if(s->left == NULL) {
-                            s->left = (*pt)->left;
-                            s->bal = (*pt)->bal;
-                            (*pt) = s;
-                            *h = 1;
-                        }
-                        else {
-                            Node *dadS;
-                            while(s->left != NULL) {
-                                dadS = s;
-                                s = s->left;
-                            }
-                            swap(pt, &dadS->left);
-                            removeAVL(x, &(*pt)->right, h);
-                        }
-                        balance(pt, 'R', h);
-                    }
-                    free(aux);
-                }
+                y->right = z;
             }
         }
+        new->left = new->right = outside;
+        new->color = "R"
+        routeRN(new, root);
     }
+
 }
+
+
+
+
+void removeRB(int x, Node **pt, int *h) {
+    
+}
+
 
 int height(Node *pt) {
     int hl, hr, diff;
@@ -269,5 +234,4 @@ void tests(Node **pt, int *vec, int *sum, int *h) {
     printf("\tNumber of Nodes: %d\n",*sum);
     if(checkAVL(*pt)) printf("\tIt's AVL!\n");
     else printf("\tIt's not AVL!");
-
 }

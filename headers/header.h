@@ -28,7 +28,7 @@ void routeRemoveRB(Node *x, Node **root, Node *outside);
 void removeRB(Node* trash, Node **root, Node *outside);
 void insertRB(int new_key, Node **root, Node *outside);
 void countNodes(Node *root, int *sum, Node *outside);
-void tests(Node **root, int *vec, int *sum, Node *outside);
+void tests(Node **root, int *vec, Node *outside);
 void freeRB(Node **root, Node *outside);
 void paInVec(int *vec, int seed);
 

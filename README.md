@@ -10,7 +10,7 @@
 Work in the Advanced Data Structures discipline.
 
 The work consists:
-[Access](https://github.com/alyssonlcss/EDA-Trabalho3.pdf)
+[Access](https://github.com/alyssonlcss/RedBlack-Tree/EDA-Trabalho3.pdf)
 
 
 ## Questions and files

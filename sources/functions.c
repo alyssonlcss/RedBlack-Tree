@@ -15,6 +15,7 @@ Node *external(){
     return new;
 }
 
+
 Node *createNode(int key, Node* outside){
     Node *new = (Node*) malloc(sizeof(Node));
     new->key = key;
@@ -25,6 +26,7 @@ Node *createNode(int key, Node* outside){
 
     return new;
 }
+
 
 void moveDad(Node *u, Node *v, Node **root, Node *outside){
     if(u->dad == outside){
@@ -39,6 +41,7 @@ void moveDad(Node *u, Node *v, Node **root, Node *outside){
 
     v->dad = u->dad;
 }
+
 
 Node* searchNode(Node* aux, int key, Node *outside) {
     if(aux == outside)
@@ -63,6 +66,7 @@ Node* successor(Node *z, Node* outside) {
     return temp;
 }
 
+
 void leftRotate(Node *new, Node **root, Node *outside){
     Node *y = new->right;
 
@@ -85,6 +89,7 @@ void leftRotate(Node *new, Node **root, Node *outside){
     new->dad = y;
 }
 
+
 void rightRotate(Node *new, Node **root, Node *outside){
     Node *y = new->left;
     new->left = y->right;
@@ -104,6 +109,7 @@ void rightRotate(Node *new, Node **root, Node *outside){
     y->right = new;
     new->dad = y;
 }
+
 
 void routeRN(Node *new, Node **root, Node *outside){
     while (new->dad->color == 'R') {
@@ -145,6 +151,7 @@ void routeRN(Node *new, Node **root, Node *outside){
     (*root)->color = 'B';
 }
 
+
 void insertRB(int new_key, Node **root, Node *outside){
     Node *new = NULL, *pt = (*root), *y = outside;
     
@@ -167,6 +174,7 @@ void insertRB(int new_key, Node **root, Node *outside){
     
     routeRN(new, root, outside);
 }
+
 
 void routeRemoveRB(Node *x, Node **root, Node *outside) {
     Node *aux;
@@ -221,6 +229,7 @@ void routeRemoveRB(Node *x, Node **root, Node *outside) {
     x->color = 'B';
 }
 
+
 void removeRB(Node* trash, Node **root, Node *outside) {
     Node *y = trash;
     Node* aux;
@@ -239,7 +248,7 @@ void removeRB(Node* trash, Node **root, Node *outside) {
             y = successor(trash, outside);
             old_color = y->color;
             aux = y -> right;
-            if (y->dad == trash) {
+            if(y->dad == trash) {
                 moveDad(y, aux, root, outside);
                 y->right = trash->right;
                 y->dad->right = y;
@@ -290,19 +299,19 @@ void paInVec(int *vec, int seed) {
     }
 }
 
-void tests(Node **root, int *vec, int *sum, Node *outside) {
-    int i;
+void tests(Node **root, int *vec, Node *outside) {
+    int i, sum = 0;
 
     puts("\tEntering 10.000 Nodes.");
     for(i = 0; i < _10K; i++)
         insertRB(vec[i], root, outside);
-    countNodes(*root, sum, outside);
-    printf("\tNumber of Nodes: %d\n",*sum);
+    countNodes(*root, &sum, outside);
+    printf("\tNumber of Nodes: %d\n",sum);
 
     puts("\t1000 nodes removed.");
     for(i = 0; i < K; i++)
-        removeRB(searchNode(*root, vec[i],outside), root, outside);
-    *sum = 0;
-    countNodes(*root, sum, outside);
-    printf("\tNumber of Nodes: %d\n",*sum);
+        removeRB(searchNode(*root, vec[i], outside), root, outside);
+    sum = 0;
+    countNodes(*root, &sum, outside);
+    printf("\tNumber of Nodes: %d\n",sum);
 }

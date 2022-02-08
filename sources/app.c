@@ -4,7 +4,6 @@
 #include <time.h>
 
 
-
 int main(void) {
     int i;
 
@@ -12,10 +11,10 @@ int main(void) {
     srand(time(NULL));
     for (i = 0; i < K; i++) {
         Node *root = outside;
-        int sum = 0, *vec = (int*)malloc(sizeof(int)*_10K);
+        int *vec = (int*)malloc(sizeof(int)*_10K);
         paInVec(vec, (rand() % 100)+1);
         printf("%d - Red-Black Tree\n", i+1);
-        tests(&root, vec, &sum, outside);
+        tests(&root, vec, outside);
         freeRB(&root, outside);
         free(vec);
     }

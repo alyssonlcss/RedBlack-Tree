@@ -21,7 +21,7 @@ void moveDad(Node *u, Node *v, Node **root, Node *outside);
 Node *external();
 void leftRotate(Node *new, Node **root, Node *outside);
 void rightRotate(Node *new, Node **root, Node *outside);
-void rotaRN(Node *new, Node **root, Node *outside);
+void rotaRB(Node *new, Node **root, Node *outside);
 Node* searchNodede(Node* aux, int key, Node *outside);
 Node* successor(Node *z, Node* outside);
 void routeRemoveRB(Node *x, Node **root, Node *outside);

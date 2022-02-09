@@ -111,7 +111,7 @@ void rightRotate(Node *new, Node **root, Node *outside){
 }
 
 
-void routeRN(Node *new, Node **root, Node *outside){
+void routeRB(Node *new, Node **root, Node *outside){
     while (new->dad->color == 'R') {
         if (new->dad == new->dad->dad->left){
             Node *y = new->dad->dad->right;
@@ -172,7 +172,7 @@ void insertRB(int new_key, Node **root, Node *outside){
 	else
 		y->right = new;
     
-    routeRN(new, root, outside);
+    routeRB(new, root, outside);
 }
 
 
